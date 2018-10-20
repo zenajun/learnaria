@@ -2,7 +2,7 @@
 	
 	var pluginName = 'ik_slider',
 		defaults = {
-			'instructions': 'Use the right and left arrow keys to increase or decrease the slider value.',
+			'instructions': `Use the right and left arrow keys to increase or decrease the slider value by one increment. Home and End to set value to minimum and maximum values accordingly.`,
 			'minValue': 0,
 			'maxValue': 100,
 			'nowValue': 0,
@@ -72,27 +72,25 @@
 					'aria-describedby': id + '_instructions' // add description */
 				})
 				.addClass('ik_knob')
+				.attr({
+						'id': id + '_instructions'
+					})
+					.text(this.options.instructions)
+					.addClass('ik_readersonly')
+					.appendTo(this.element)
 				.on('keydown', {'plugin': plugin}, plugin.onKeyDown)
 				.on('mousedown', {'plugin': plugin}, plugin.onMouseDown)
 				.on('mousemove', {'plugin': plugin}, plugin.onMouseMove)
 				.on('mouseup', {'plugin': plugin}, plugin.onMouseUp)
-				.on('mouseleave', function(){ setTimeout(plugin.onMouseUp, 100, { 'data': {'plugin': plugin} }) });
-				
-				$('<div/>') // add instructions for screen reader users
-					.attr({'id': id + '_instructions'})
-					.text(this.options.instructions)
-					.addClass('ik_readersonly')
-					.appendTo(this.element);
+				.on('mouseleave', function(){ setTimeout(plugin.onMouseUp, 100, { 'data': {'plugin': plugin} }) });				
 
 				$('<div/>') // add slider track
 				.addClass('ik_track')
 				.append(this.fill, this.knob)
 				.prependTo(this.element);
 			
-			this.setValue(plugin.options.minValue); // update current value
-		
+			this.setValue(plugin.options.minValue); // update current value		
 		}
-					
 	};
 	
 	/** 
@@ -133,7 +131,6 @@
 			});
 		
 	};
-	
 
 	
 	/** 
@@ -206,21 +203,13 @@
 		
 	};
 	
-/**
- * Keyboard event handler.
- *
- * @param {object} event - Keyboard event.
- * @param {object} event.data - Event data.
- * @param {object} event.data.plugin - Reference to plugin.
- */
-/**
- * Keyboard event handler.
- *
- * @param {object} event - Keyboard event.
- * @param {object} event.data - Event data.
- * @param {object} event.data.plugin - Reference to plugin.
- */
-
+	/**
+	 * Keyboard event handler.
+	 *
+	 * @param {object} event - Keyboard event.
+	 * @param {object} event.data - Event data.
+	 * @param {object} event.data.plugin - Reference to plugin.
+	 */
 	Plugin.prototype.onKeyDown = function (event) {
 
 		var $elem, plugin, value;
@@ -253,8 +242,9 @@
 				break;
 
 		}
+
 	};
-	
+
 	$.fn[pluginName] = function ( options ) {
 		
 		return this.each(function () {
